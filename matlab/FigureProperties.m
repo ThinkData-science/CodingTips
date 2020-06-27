@@ -6,11 +6,13 @@
 
 % Create a figure and save it's handle.
 f1 = figure();
+keyboard
 
 % Using the get() function we can examine the properties on the Figure. In 
-% MATLAB this will return a class, but in Octave this will return a struct.
+% MATLAB this will return an object, but in Octave this will return a struct.
 figureInfo = get( f1 );
 disp( figureInfo );
+keyboard
 
 % Rather than returning all of the properties, we can also request a specific 
 % property that we are interested in. For example, we can return the current
@@ -18,17 +20,20 @@ disp( figureInfo );
 % default. 
 figureName = get( f1, 'name' );
 disp( figureName );
+keyboard
 
 % Similarly, we can set properties on the figure using the set() method. For 
 % example, we can change the figure name with the following command.
 set( f1, 'name', 'Figure Properties Tutorial' );
 figureName = get( f1, 'name' );
 disp( figureName );
+keyboard
 
 % One of the most common properties you will want to use is 'position'. 
 % We can get the current figure position using this property as follows;
 pos = get( f1, 'position' );
 disp( pos );
+keyboard
 
 % The position property is a 1x4 vector that contains horizontal origin (h0), 
 % vertical origin (v0), width (w), and height (h), respectively. So it looks 
@@ -38,9 +43,11 @@ disp( pos );
 % this example will place the figure in the bottom left corner of the screen 
 % and will be 300 pixels wide by 600 pixels tall.
 set( f1, 'position', [0, 0, 300, 600] );
+keyboard
 
 % Similarly, we can make a short and fat figure like so:
 set( f1, 'position', [0, 0, 600, 300] );
+keyboard
 
 % It is also possible to specify the figure position in normalized units 
 % (scaled between 0 and 1) and inches using the "units" property and the 
@@ -49,11 +56,16 @@ set( f1, 'position', [0, 0, 600, 300] );
 % example that will create a figure that takes up the left half of the screen.
 set( f1, 'units', 'normalized' );
 set( f1, 'position', [0, 0, 0.5, 1] ); 
+keyboard
 
 % Here is an example that will create a figure that is 3 inches wide by 4
-% inches tall. 
+% inches tall. Creating figures based on inches can be extremely heplful if you
+% are running the same code on different displays and want to have a consistent
+% output. It is also useful when preparing plots for publications. 
 set( f1, 'units', 'inches' );
 set( f1, 'position', [0, 0, 3, 4] ); 
+keyboard
+close( f1 );
 
 % The set() and get() functions are extremly useful and can be used to adjust 
 % the properties of many different objects. It is important to note that 
