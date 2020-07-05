@@ -97,7 +97,7 @@ keyboard();
 
 close( f )
 
-%% Use different exact position coordinates
+%% Use exact position coordinates
 % Finally, the most flexible way of using subplot() is to specify the exact
 % position of each plot within the figure. The easiest way to do this is to use
 % normalized units and specify the subplot locations relative to the figure.
