@@ -102,7 +102,62 @@ for iView=1 : nAnimations
 end
 
 %% Looping over data
+% So why does this all matter? Well, when we are looping over data, array order
+% can actually have a significant impact on the run time. It is much more 
+% efficient to read access data that is contiguous in memory. So having the 
+% knowledge of how our data is organized in memory can also help us write more
+% computationally efficient code. 
 
+% Let's motivate this with a simple example. Suppose we have a collection of 
+% images that we want to operate on. The images are of size (nX, nY) and we have
+% nI images in our dataset. How should we arrange our data: [nX, nY, nI] or
+% [nI, nX, nY]? 
+nX = 128;
+nY = 128;
+nI = 50000;
+% - Arrange images at the first two dimension
+imageData = randn( nX, nY, nI );
+a = tic();
+for ix1=1 : nI
+  thisImg = imageData( :, :, ix1 );
+end
+et1 = toc( a );
+% - Arrange images at the last two dimensions
+imageData = randn( nI, nX, nY );
+a = tic();
+for ix1=1 : nI
+  thisImg = imageData( ix1, :, : );
+end
+et2 = toc( a );
+fprintf( 'Looping over the last dimension: %0.4f seconds\n', et1 );
+fprintf( 'Looping over the first dimension: %0.4f seconds\n', et2 );
+fprintf( '%0.1f factor increase\n', et2/et1 );
+
+%% Permute()
+% MATLAB includes a function called permute() which is n-dimensional 
+% generalization of a matrix transpose. 
+
+% Time the permute() command_line_path
+
+% Re-create the experiment but include permute()
+% - Arrange images at the first two dimension
+imageData = randn( nX, nY, nI );
+a = tic();
+for ix1=1 : nI
+  thisImg = imageData( :, :, ix1 );
+end
+et1 = toc( a );
+% - Arrange images at the last two dimensions
+imageData = randn( nI, nX, nY );
+imageData = permute( imageData, [ 2, 3, 1 ] );
+a = tic();
+for ix1=1 : nI
+  thisImg = imageData( :, :, ix1 );
+end
+et2 = toc( a );
+fprintf( 'Looping over the last dimension: %0.4f seconds\n', et1 );
+fprintf( 'Permute and loop over the last dimension: %0.4f seconds\n', et2 );
+fprintf( '%0.1f factor increase\n', et2/et1 );
 
 
 %% end of file
